@@ -2,6 +2,20 @@ module Elasticsearch
   module DSLR
     module Parser
 
+      module Utils
+        def self.first_from_hash(parse)
+          body = {}; args = {}
+          parse.each do |key, value|
+            if body.empty?
+              body[key] = value
+            else
+              args[key] = value
+            end
+          end
+          return body, args
+        end
+      end
+
       module ClassMethods
         include Elasticsearch::DSL::Search
 
@@ -33,7 +47,7 @@ module Elasticsearch
 
         def function_score(function_type, args={})
           _query = @query.to_hash if @query
-          _body, _args = function_body(args)
+          _body, _args = Utils.first_from_hash(args)
           @query = Queries::FunctionScore.new do
             query _query if _query
             case function_type
@@ -48,19 +62,7 @@ module Elasticsearch
           self
         end
 
-        def function_body(parse)
-          body = {}; args = {}
-          parse.each do |key, value|
-            if body.empty?
-              body[key] = value
-            else
-              args[key] = value
-            end
-          end
-          return body, args
-        end
       end
-
     end
   end
 end

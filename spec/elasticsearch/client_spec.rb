@@ -31,4 +31,8 @@ describe Elasticsearch::DSLR::Model, :elasticsearch do
 
     expect(request.query(:match, title: 'test').search.results).to eq([])
   end
+
+  it 'Insert and delete data' do
+    expect(request.document({title: 'eeeeee'}).save).to eq({"acknowledged"=>true})
+  end
 end

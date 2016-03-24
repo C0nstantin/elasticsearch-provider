@@ -4,10 +4,15 @@ module Elasticsearch
 
       class Class < Elasticsearch::DSL::Search::Search
 
-        include Elasticsearch::DSLR::Naming::ClassMethods
-        include Elasticsearch::DSLR::Parser::ClassMethods
         include Elasticsearch::DSLR::Client::ClassMethods
+        include Elasticsearch::DSLR::Naming::ClassMethods
+        include Elasticsearch::DSLR::Document::ClassMethods
+
+        include Elasticsearch::DSLR::Parser::ClassMethods
+
         include Elasticsearch::DSLR::Request::Search::ClassMethods
+        include Elasticsearch::DSLR::Request::Delete::ClassMethods
+        include Elasticsearch::DSLR::Request::Create::ClassMethods
         include Elasticsearch::DSLR::Response::Results
 
         def request(*args, &block)
