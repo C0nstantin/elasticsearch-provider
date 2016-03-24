@@ -6,8 +6,8 @@ module Elasticsearch
         module ClassMethods
           def save(options={})
             if document.respond_to?(:to_hash)
-              response = client.indices.create({
-                index: index_name, type: document_type, body: document
+              response = client.create({
+                index: index_name, type: document_type, id: id, body: document
               }.merge(options))
             else
               raise ArgumentError,

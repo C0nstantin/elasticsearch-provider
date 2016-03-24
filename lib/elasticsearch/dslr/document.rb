@@ -18,7 +18,7 @@ module Elasticsearch
         end
 
         def id id=nil
-          if document.nil?
+          if id.nil?
             @id
           else
             @id = id

@@ -33,6 +33,6 @@ describe Elasticsearch::DSLR::Model, :elasticsearch do
   end
 
   it 'Insert and delete data' do
-    expect(request.document({title: 'eeeeee'}).save).to eq({"acknowledged"=>true})
+    expect(request.document({title: 'eeeeee'}).save).to have_key('created')
   end
 end
