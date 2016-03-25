@@ -32,7 +32,8 @@ describe Elasticsearch::DSLR::Model, :elasticsearch do
     expect(request.query(:match, title: 'test').search.results).to eq([])
   end
 
-  it 'Insert and delete data' do
-    expect(request.document({title: 'eeeeee'}).save).to have_key('created')
+  it 'Create document and insert data with id' do
+   response = request.document({title: 'eeeeee'}).id(1).save
+    expect(response).to include({"created" => true}, {"_id" => "1"})
   end
 end
