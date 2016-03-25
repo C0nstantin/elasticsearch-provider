@@ -92,4 +92,22 @@ describe Elasticsearch::DSLR::Parser do
         }
       })
   end
+
+  it 'Check query filter response' do
+    aggregation = {
+      avg_price: {
+        avg: {
+          field: "price"
+        }
+      }
+    }
+
+    filter_request = request.
+      query(:match, title: 'test').
+      filter(:regexp, category: 'test')
+
+    expect(
+      filter_request.aggs(:agregation_name, aggregation).to_hash
+    ).to eq({})
+  end
 end
