@@ -74,7 +74,7 @@ describe Elasticsearch::DSLR::Parser do
     highlight = {
       pre_tags: ["<b>"],
       post_tags: ["</b>"],
-      fields:{
+      fields: {
         meta_keywords: {},
         meta_description: {}
       }
@@ -93,21 +93,21 @@ describe Elasticsearch::DSLR::Parser do
       })
   end
 
-  it 'Check query filter response' do
+  it 'Check query filter aggregation' do
     aggregation = {
-      avg_price: {
-        avg: {
-          field: "price"
-        }
+      terms: {
+        field: "category"
       }
     }
 
     filter_request = request.
       query(:match, title: 'test').
-      filter(:regexp, category: 'test')
+      filter(:regexp, category: 'test.*')
 
     expect(
-      filter_request.aggs(:agregation_name, aggregation).to_hash
-    ).to eq({})
+      filter_request.aggregation(:category_aggs, aggregation).to_hash
+    ).to include(
+      :aggregations => {:category_aggs=>{:terms=>{:field=>"category"}}}
+    )
   end
 end

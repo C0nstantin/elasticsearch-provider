@@ -61,13 +61,8 @@ module Elasticsearch
           end
           self
         end
-
-        def aggs(aggs_name, *args)
-          _query = @query.to_hash if @query
-          _agg = Aggregation.new
-          self
-        end
       end
+
     end
   end
 end
