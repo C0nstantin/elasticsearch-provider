@@ -15,12 +15,14 @@ module Elasticsearch
         include Elasticsearch::DSLR::Request::Create::ClassMethods
         include Elasticsearch::DSLR::Response::Results
 
-        def request(*args, &block)
+        def elasticsearch(*args, &block)
           instance = self.class.new
           instance.index_name = self.index_name
           instance.document_type = self.document_type
           instance
         end
+
+        alias_method :elastic, :elasticsearch
       end
 
     end

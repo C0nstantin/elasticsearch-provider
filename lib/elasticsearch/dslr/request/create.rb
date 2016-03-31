@@ -6,7 +6,7 @@ module Elasticsearch
         module ClassMethods
           def save(options={})
             if document.respond_to?(:to_hash)
-              response = client.create({
+              client.create({
                 index: index_name, type: document_type, id: id, body: document
               }.merge(options))
             else
@@ -14,7 +14,6 @@ module Elasticsearch
                 "[!] Pass the save definition object as a Hash-like object" +
                 " -- #{self.class} given."
             end
-            response
           end
         end
 

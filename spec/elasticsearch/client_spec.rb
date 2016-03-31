@@ -9,7 +9,7 @@ describe Elasticsearch::DSLR::Model, :elasticsearch do
   end
 
   let(:request) do
-    request = DummyClass.new.request
+    request = DummyClass.elasticsearch
   end
 
   let(:client) { Elasticsearch::DSLR::Client.client }
@@ -33,7 +33,17 @@ describe Elasticsearch::DSLR::Model, :elasticsearch do
   end
 
   it 'Create document and insert data with id' do
-   response = request.document({title: 'eeeeee'}).id(1).save
+    response = request.document({title: 'eeeeee'}).id(1).save
     expect(response).to include({"created" => true}, {"_id" => "1"})
+  end
+
+  it 'Response contains aggregation' do
+    aggregation = {terms: {field: "title"}}
+
+    aggs_request = request.
+      query(:match, title: 'eeee').
+      aggregation(:category_aggs, aggregation).search
+
+    expect(aggs_request.response).to have_key("aggregations")
   end
 end

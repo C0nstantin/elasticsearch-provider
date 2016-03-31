@@ -6,7 +6,7 @@ describe Elasticsearch::DSLR::Parser do
   end
 
   let(:request) do
-    request = DummyClass.new.request
+    request = DummyClass.elasticsearch
   end
 
   it 'Has a version number' do
