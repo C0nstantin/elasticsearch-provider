@@ -20,14 +20,8 @@ module Elasticsearch
         include Elasticsearch::DSL::Search
 
         def query(request_type, *args)
-          case request_type
-          when :match
-            request = Proc.new {match *args}
-            @query = Query.new :query, &request
-          when :multi_match
-            request = Proc.new {multi_match *args}
-            @query = Query.new :query, &request
-          end
+          request = Proc.new {send(request_type, *args)}
+          @query = Query.new :query, &request
           self
         end
 
@@ -35,11 +29,8 @@ module Elasticsearch
           _query = @query.to_hash if @query
           @query = Queries::Filtered.new do
             query _query if _query
-            case filter_type
-            when :regexp
-              filter do
-                regexp *args
-              end
+            filter do
+              send(filter_type, *args)
             end
           end
           self
@@ -50,10 +41,7 @@ module Elasticsearch
           _body, _args = Utils.first_from_hash(args)
           @query = Queries::FunctionScore.new do
             query _query if _query
-            case function_type
-            when :script_score
-              script_score _body
-            end
+            send(function_type, _body)
             boost _args[:boost] if _args[:boost]
             max_boost _args[:max_boost] if _args[:max_boost]
             score_mode _args[:score_mode] if _args[:score_mode]
