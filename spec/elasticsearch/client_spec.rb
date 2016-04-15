@@ -30,10 +30,23 @@ describe Elasticsearch::DSLR::Model, :elasticsearch do
     ).to eq([])
   end
 
+  it 'Create document and insert data' do
+    expect(
+      elastic.document({title: 'eeeeee'}).save
+    ).to include({"created" => true})
+  end
+
   it 'Create document and insert data with id' do
     expect(
       elastic.document({title: 'eeeeee'}).id(1).save
     ).to include({"created" => true}, {"_id" => "1"})
+  end
+
+  it 'Search by id success' do
+    elastic.document({title: 'eeeeee'}).id(1).save
+    expect(
+      elastic.id(1).search.results
+    ).to include({"found" => true})
   end
 
   it 'Response contains aggregation' do

@@ -5,7 +5,11 @@ module Elasticsearch
 
         module ClassMethods
           def search(options={})
-            if self.respond_to?(:to_hash)
+            if id.is_a?(String) || id.is_a?(Integer)
+              response = client.get({
+                index: index_name, type: document_type, id: id
+              }.merge(options))
+            elsif self.respond_to?(:to_hash)
               response = client.search({
                 index: index_name, type: document_type, body: self.to_hash
               }.merge(options))
