@@ -13,6 +13,7 @@ module Elasticsearch
         include Elasticsearch::DSLR::Request::Search::ClassMethods
         include Elasticsearch::DSLR::Request::Delete::ClassMethods
         include Elasticsearch::DSLR::Request::Create::ClassMethods
+        include Elasticsearch::DSLR::Request::Update::ClassMethods
         include Elasticsearch::DSLR::Response::Results
 
         def elasticsearch(*args, &block)

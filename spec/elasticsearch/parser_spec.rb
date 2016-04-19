@@ -9,11 +9,11 @@ describe Elasticsearch::DSLR::Parser do
     request = DummyClass.elasticsearch
   end
 
-  it 'Has a version number' do
+  it 'has a version number' do
     expect(Elasticsearch::DSLR::VERSION).to match(/\d+\.\d+\.\d+/)
   end
 
-  it 'Match query response check' do
+  it 'match query response' do
     expect(
       request.query(:match, title: 'test').to_hash
     ).to eq(
@@ -21,7 +21,7 @@ describe Elasticsearch::DSLR::Parser do
     )
   end
 
-  it 'Multi_match query response check' do
+  it 'multi_match query response' do
     expect(
       request.query(
         :multi_match, query: 'test', fields: [:title, :abstract, :content]
@@ -32,13 +32,13 @@ describe Elasticsearch::DSLR::Parser do
     )
   end
 
-  it 'Filter query response check' do
+  it 'filter query response' do
     expect(
       request.filter(:regexp, category: 'test').to_hash
     ).to eq(:query => {:filtered=>{:filter=>{:regexp=>{:category=>"test"}}}})
   end
 
-  it 'Check query filter response' do
+  it 'query filter response' do
     expect(
       request.
         query(:match, title: 'test').
@@ -54,7 +54,7 @@ describe Elasticsearch::DSLR::Parser do
     )
   end
 
-  it 'Check function_score filter response' do
+  it 'function_score filter response' do
     expect(
       request.
         function_score(
@@ -70,7 +70,7 @@ describe Elasticsearch::DSLR::Parser do
     })
   end
 
-  it 'Check highlight request' do
+  it 'highlight request' do
     highlight = {
       pre_tags: ["<b>"],
       post_tags: ["</b>"],
@@ -93,7 +93,7 @@ describe Elasticsearch::DSLR::Parser do
       })
   end
 
-  it 'Check query filter aggregation' do
+  it 'query filter aggregation' do
     aggregation = {
       terms: {
         field: "category"

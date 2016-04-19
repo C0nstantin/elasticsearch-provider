@@ -14,13 +14,13 @@ describe Elasticsearch::DSLR::Model, :elasticsearch do
     expect(request.status).to eql(200)
   end
 
-  it 'Create test index' do
+  it 'create test index' do
     client.indices.delete index: 'test' if client.indices.exists index: 'test'
     request = client.indices.create index: 'test', type: 'doc'
     expect(request).to eql({"acknowledged"=>true})
   end
 
-  it 'Search request success' do
+  it 'search request success' do
     client.indices.put_mapping index: 'test', type: 'doc', \
       body: {doc: {properties: {title: {type: "string"}}}}
 
@@ -30,26 +30,34 @@ describe Elasticsearch::DSLR::Model, :elasticsearch do
     ).to eq([])
   end
 
-  it 'Create document and insert data' do
+  it 'create document and insert data' do
     expect(
       elastic.document({title: 'eeeeee'}).save
     ).to include({"created" => true})
   end
 
-  it 'Create document and insert data with id' do
+  it 'create document and insert data with id' do
     expect(
       elastic.document({title: 'eeeeee'}).id(1).save
     ).to include({"created" => true}, {"_id" => "1"})
   end
 
-  it 'Search by id success' do
+  it 'search by id success' do
     elastic.document({title: 'eeeeee'}).id(1).save
     expect(
       elastic.id(1).search.results
     ).to include({"found" => true})
   end
 
-  it 'Response contains aggregation' do
+  it 'update document by id success' do
+    elastic.document({title: 'eeeeee'}).id(1).save
+    sleep 0.5
+    expect(
+      elastic.document({title: 'tttttt'}).id(1).update
+    ).to include({"_id" => "1"})
+  end
+
+  it 'response contains aggregation' do
     aggregation = {
       terms: {
         field: 'title'

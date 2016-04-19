@@ -10,6 +10,7 @@ require 'elasticsearch/dslr/parser'
 require 'elasticsearch/dslr/request/search'
 require 'elasticsearch/dslr/request/delete'
 require 'elasticsearch/dslr/request/create'
+require 'elasticsearch/dslr/request/update'
 require 'elasticsearch/dslr/response/results'
 require 'elasticsearch/dslr/class'
 

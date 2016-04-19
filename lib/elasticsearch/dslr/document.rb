@@ -17,6 +17,20 @@ module Elasticsearch
           @document
         end
 
+        def scipt scipt=nil
+          if scipt.nil?
+            @script
+          else
+            @scipt = scipt
+            self
+          end
+        end
+
+        def scipt=(scipt)
+          @scipt = scipt
+          @script
+        end
+
         def id id=nil
           if id.nil?
             @id
