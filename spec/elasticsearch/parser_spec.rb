@@ -54,6 +54,34 @@ describe Elasticsearch::DSLR::Parser do
     )
   end
 
+  it 'query bool filter response' do
+    expect(
+      request.
+        query(:match, title: 'test').
+        filter(:bool, {
+          should: {
+            regexp: {category: "test"}
+          },
+          must_not: {
+            term: {price: 30}
+          }
+        }).
+        to_hash
+    ).to eq(
+      :query=>{
+        :filtered=>{
+          :query=>{:match=>{:title=>"test"}},
+          :filter=>{
+            :bool=>{
+              :should=>{:regexp=>{:category=>"test"}},
+              :must_not=>{:term=>{:price=>30}}
+            }
+          }
+        }
+      }
+    )
+  end
+
   it 'function_score filter response' do
     expect(
       request.
