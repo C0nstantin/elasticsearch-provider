@@ -35,7 +35,12 @@ module Elasticsearch
     #
     module GatewayDelegation
       def method_missing(method_name, *arguments, &block)
-        gateway.respond_to?(method_name) ? gateway.__send__(method_name, *arguments, &block) : super
+        if gateway.respond_to?(method_name)
+          gateway.__send__(:implict, self)
+          gateway.__send__(method_name, *arguments, &block)
+        else
+          super
+        end
       end
 
       def respond_to?(method_name, include_private=false)
