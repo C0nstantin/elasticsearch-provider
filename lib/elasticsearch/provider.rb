@@ -2,20 +2,20 @@ require 'elasticsearch'
 require 'elasticsearch/dsl'
 require 'hashie'
 
-require 'elasticsearch/dslr/version'
-require 'elasticsearch/dslr/client'
-require 'elasticsearch/dslr/naming'
-require 'elasticsearch/dslr/document'
-require 'elasticsearch/dslr/parser'
-require 'elasticsearch/dslr/request/search'
-require 'elasticsearch/dslr/request/delete'
-require 'elasticsearch/dslr/request/create'
-require 'elasticsearch/dslr/request/update'
-require 'elasticsearch/dslr/response/results'
-require 'elasticsearch/dslr/class'
+require 'elasticsearch/provider/version'
+require 'elasticsearch/provider/client'
+require 'elasticsearch/provider/naming'
+require 'elasticsearch/provider/document'
+require 'elasticsearch/provider/parser'
+require 'elasticsearch/provider/request/search'
+require 'elasticsearch/provider/request/delete'
+require 'elasticsearch/provider/request/create'
+require 'elasticsearch/provider/request/update'
+require 'elasticsearch/provider/response/results'
+require 'elasticsearch/provider/class'
 
 module Elasticsearch
-  module DSLR
+  module Provider
 
     module ClassMethods
 
@@ -53,7 +53,7 @@ module Elasticsearch
     end
 
     def self.included(base)
-      gateway = Elasticsearch::DSLR::Model::Class.new
+      gateway = Elasticsearch::Provider::Model::Class.new
 
       base.class_eval do
         define_method :gateway do

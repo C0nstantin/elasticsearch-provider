@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Elasticsearch::DSLR::Parser do
+describe Elasticsearch::Provider::Parser do
   class DummyClass
-    include Elasticsearch::DSLR
+    include Elasticsearch::Provider
   end
 
   let(:request) do
@@ -10,7 +10,7 @@ describe Elasticsearch::DSLR::Parser do
   end
 
   it 'has a version number' do
-    expect(Elasticsearch::DSLR::VERSION).to match(/\d+\.\d+\.\d+/)
+    expect(Elasticsearch::Provider::VERSION).to match(/\d+\.\d+\.\d+/)
   end
 
   it 'match query response' do

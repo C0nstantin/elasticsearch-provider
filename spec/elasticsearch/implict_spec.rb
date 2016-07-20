@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Elasticsearch::DSLR::Parser do
+describe Elasticsearch::Provider::Parser do
   class DummyClass
-    include Elasticsearch::DSLR
+    include Elasticsearch::Provider
 
     def properties
       {properties: {id: self.id}}

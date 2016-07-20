@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe Elasticsearch::DSLR::Model, :elasticsearch do
-  include Elasticsearch::DSLR
+describe Elasticsearch::Provider::Model, :elasticsearch do
+  include Elasticsearch::Provider
 
   index_name 'test'
   document_type 'doc'
 
-  let(:client) { Elasticsearch::DSLR::Client.client }
+  let(:client) { Elasticsearch::Provider::Client.client }
 
   it 'GET elasticsearch cluster health success' do
     request = client.perform_request \
@@ -73,9 +73,7 @@ describe Elasticsearch::DSLR::Model, :elasticsearch do
     }
 
     expect(
-      elastic.
-        aggregation(:title_aggs, aggregation).
-        search.response
+      elastic.aggregation(:title_aggs, aggregation).search.response
     ).to have_key("aggregations")
   end
 

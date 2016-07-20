@@ -1,24 +1,24 @@
 module Elasticsearch
-  module DSLR
+  module Provider
     module Model
 
       class Class < Elasticsearch::DSL::Search::Search
 
-        include Elasticsearch::DSLR::Client::ClassMethods
-        include Elasticsearch::DSLR::Naming::ClassMethods
-        include Elasticsearch::DSLR::Document::ClassMethods
+        include Elasticsearch::Provider::Client::ClassMethods
+        include Elasticsearch::Provider::Naming::ClassMethods
+        include Elasticsearch::Provider::Document::ClassMethods
 
-        include Elasticsearch::DSLR::Parser::ClassMethods
+        include Elasticsearch::Provider::Parser::ClassMethods
 
-        include Elasticsearch::DSLR::Request::Search::ClassMethods
-        include Elasticsearch::DSLR::Request::Delete::ClassMethods
-        include Elasticsearch::DSLR::Request::Create::ClassMethods
-        include Elasticsearch::DSLR::Request::Update::ClassMethods
-        include Elasticsearch::DSLR::Response::Results
+        include Elasticsearch::Provider::Request::Search::ClassMethods
+        include Elasticsearch::Provider::Request::Delete::ClassMethods
+        include Elasticsearch::Provider::Request::Create::ClassMethods
+        include Elasticsearch::Provider::Request::Update::ClassMethods
+        include Elasticsearch::Provider::Response::Results
 
         def elasticsearch(*args, &block)
           instance_var = [
-            '@query', '@hash', '@block', '@value', '@highlight', '@args'
+            '@query', '@hash', '@block', '@value', '@highlight', '@args', '@id'
           ]
           instance_var.each { |name|
             if instance_variable_defined?(:"#{name}")

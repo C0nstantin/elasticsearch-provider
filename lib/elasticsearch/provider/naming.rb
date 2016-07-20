@@ -1,5 +1,5 @@
 module Elasticsearch
-  module DSLR
+  module Provider
 
     # Provides methods for getting and setting index name and document type for the model
     #

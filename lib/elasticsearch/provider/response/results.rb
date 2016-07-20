@@ -1,5 +1,5 @@
 module Elasticsearch
-  module DSLR
+  module Provider
     module Response
       module Results
 

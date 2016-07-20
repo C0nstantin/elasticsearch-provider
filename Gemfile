@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in elasticsearch-dslr.gemspec
+# Specify your gem's dependencies in elasticsearch-provider.gemspec
 gemspec
 
 group :test do
