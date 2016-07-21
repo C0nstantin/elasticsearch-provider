@@ -14,11 +14,15 @@ module Elasticsearch
         include Elasticsearch::Provider::Request::Delete::ClassMethods
         include Elasticsearch::Provider::Request::Create::ClassMethods
         include Elasticsearch::Provider::Request::Update::ClassMethods
+
+        include Elasticsearch::Provider::Childs::Naming::ClassMethods
+
         include Elasticsearch::Provider::Response::Results
 
         def elasticsearch(*args, &block)
           instance_var = [
-            '@query', '@hash', '@block', '@value', '@highlight', '@args', '@id'
+            '@query', '@hash', '@block', '@value', '@highlight', '@args',
+            '@id', '@mapping'
           ]
           instance_var.each { |name|
             if instance_variable_defined?(:"#{name}")
@@ -30,6 +34,22 @@ module Elasticsearch
           self
         end
         alias_method :elastic, :elasticsearch
+
+        def child(*args, &block)
+          properties = Elasticsearch::Provider::Childs::Class.new
+
+          child_mapping = client.indices.get_mapping(
+            index: index_name, type: child_type
+          ) unless child_mapping
+
+          properties.document_mapping = child_mapping
+          properties.document_type = child_type
+          properties.index_name = index_name
+
+          properties
+        end
+
+        private
 
         def implict name=nil
           if name.nil?

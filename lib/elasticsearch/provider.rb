@@ -12,6 +12,13 @@ require 'elasticsearch/provider/request/delete'
 require 'elasticsearch/provider/request/create'
 require 'elasticsearch/provider/request/update'
 require 'elasticsearch/provider/response/results'
+require 'elasticsearch/provider/childs/naming'
+require 'elasticsearch/provider/childs/class'
+
+Dir[
+  File.expand_path('../provider/childs/types/*.rb', __FILE__)
+].each { |f| require f }
+
 require 'elasticsearch/provider/class'
 
 module Elasticsearch

@@ -4,7 +4,9 @@ describe Elasticsearch::Provider::Parser do
   class DummyClass
     include Elasticsearch::Provider
 
-    def properties
+    document_type 'doc'
+
+    def implict
       {properties: {id: self.id}}
     end
   end
@@ -15,13 +17,13 @@ describe Elasticsearch::Provider::Parser do
 
   it 'class propperties for class method' do
     expect(
-      request.id('test').properties
+      request.id('test').implict
     ).to eq({properties: {id: 'test'}})
   end
 
   it 'class propperties for implict method' do
     expect(
-      request.elastic.id('test').properties
+      request.elastic.id('test').implict
     ).to eq({properties: {id: 'test'}})
   end
 
