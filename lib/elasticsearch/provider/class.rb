@@ -35,8 +35,10 @@ module Elasticsearch
         end
         alias_method :elastic, :elasticsearch
 
-        def child(*args, &block)
-          properties = Elasticsearch::Provider::Childs::Class.new
+        def childs(*args, &block)
+          raise TypeError, "parent id must be present" if id.nil?
+
+          properties = Elasticsearch::Provider::Childs::Child.new
 
           child_mapping = client.indices.get_mapping(
             index: index_name, type: child_type
@@ -45,6 +47,7 @@ module Elasticsearch
           properties.document_mapping = child_mapping
           properties.document_type = child_type
           properties.index_name = index_name
+          properties.parent_id = id
 
           properties
         end

@@ -3,12 +3,10 @@ module Elasticsearch
     module Childs
 
       class Base
-        attr_accessor :index_name, :document_type, :mapping, :current_object
+        attr_accessor :object_name, :object_mapping, :object_value
 
-        def initialize(index, type, structure)
-          index_name = index
-          document_type = type
-          mapping = structure
+        def assignment(args)
+          self.object_value = args
         end
       end
 
