@@ -48,6 +48,7 @@ module Elasticsearch
           properties.document_type = child_type
           properties.index_name = index_name
           properties.parent_id = id
+          properties.id = id
 
           properties
         end

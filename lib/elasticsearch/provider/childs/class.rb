@@ -4,7 +4,7 @@ module Elasticsearch
 
       class Child
         attr_accessor :index_name, :document_type, :document_mapping,
-          :parent_id
+          :parent_id, :id
 
         include Elasticsearch::Provider::Client::ClassMethods
 
@@ -22,7 +22,7 @@ module Elasticsearch
         end
 
         def all
-          id(parent_id).search({parent: parent_id}).results._source
+          search({parent: parent_id}).results._source
         rescue Elasticsearch::Transport::Transport::Errors::NotFound
           []
         end
@@ -34,6 +34,7 @@ module Elasticsearch
           object.document_type = document_type
           object.index_name = index_name
           object.parent_id = parent_id
+          object.id = id
 
           object
         end
@@ -43,7 +44,7 @@ module Elasticsearch
           @object_tree.each { |key, item|
             _document[key] = item.object_value
           }
-          id(parent_id).document(_document)
+          document(_document)
 
           begin
             search({parent: parent_id})
@@ -54,14 +55,12 @@ module Elasticsearch
         end
 
         def delete
-          self.id = parent_id
-
           super({parent: parent_id})
         rescue Elasticsearch::Transport::Transport::Errors::NotFound
         end
 
         def select(name)
-          id(parent_id).search({parent: id}).results._source[name]
+          search({parent: id}).results._source[name]
         rescue Elasticsearch::Transport::Transport::Errors::NotFound
         end
 
