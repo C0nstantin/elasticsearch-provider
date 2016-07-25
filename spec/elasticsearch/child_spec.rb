@@ -70,6 +70,10 @@ describe Elasticsearch::Provider::Childs, :elasticsearch_child do
     end
   end
 
+  it 'delete catch exeption' do
+    expect(childs.delete).to eq(nil)
+  end
+
   it 'delete child' do
     childs.present = true
     childs.save

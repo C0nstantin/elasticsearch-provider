@@ -58,6 +58,7 @@ module Elasticsearch
         def delete
           self.id = parent_id
           super({parent: parent_id})
+        rescue Elasticsearch::Transport::Transport::Errors::NotFound
         end
 
         def select(name)
