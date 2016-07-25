@@ -39,13 +39,11 @@ module Elasticsearch
         end
 
         def save
-          self.id = parent_id
-
           _document = {}
           @object_tree.each { |key, item|
             _document[key] = item.object_value
           }
-          document(_document)
+          id(parent_id).document(_document)
 
           begin
             search({parent: parent_id})
@@ -57,14 +55,13 @@ module Elasticsearch
 
         def delete
           self.id = parent_id
+
           super({parent: parent_id})
         rescue Elasticsearch::Transport::Transport::Errors::NotFound
         end
 
         def select(name)
-          self.id = parent_id
-
-          search({parent: id}).results._source[name]
+          id(parent_id).search({parent: id}).results._source[name]
         rescue Elasticsearch::Transport::Transport::Errors::NotFound
         end
 
