@@ -18,7 +18,7 @@ module Elasticsearch
         include Elasticsearch::Provider::Response::Results
 
         def initialize
-          @object_tree = []
+          @object_tree = {}
         end
 
         def all
@@ -42,8 +42,8 @@ module Elasticsearch
           self.id = parent_id
 
           _document = {}
-          @object_tree.each { |item|
-            _document[item.object_name] = item.object_value
+          @object_tree.each { |key, item|
+            _document[key] = item.object_value
           }
           document(_document)
 
@@ -53,6 +53,13 @@ module Elasticsearch
           rescue Elasticsearch::Transport::Transport::Errors::NotFound
             super({parent: parent_id})
           end
+        end
+
+        def select(name)
+          self.id = parent_id
+
+          search({parent: id}).results._source[name]
+        rescue Elasticsearch::Transport::Transport::Errors::NotFound
         end
 
         def method_missing(method_name, *args, &block)
@@ -74,11 +81,13 @@ module Elasticsearch
             _object.object_name = method_name
             _object.object_mapping = {method_name => _current}
 
-            _object.assignment(*args) if operation == '='
+            @object_tree[method_name.to_s] = _object
 
-            @object_tree.push(_object)
-
-            _object
+            if operation.nil?
+              select(method_name.to_s)
+            else
+              _object.assignment(*args) if operation == '='
+            end
           else
             super
           end

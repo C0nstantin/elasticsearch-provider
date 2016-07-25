@@ -14,6 +14,7 @@ require 'elasticsearch/provider/request/update'
 require 'elasticsearch/provider/response/results'
 require 'elasticsearch/provider/childs/naming'
 require 'elasticsearch/provider/childs/class'
+require 'elasticsearch/provider/childs/base'
 
 Dir[
   File.expand_path('../provider/childs/types/*.rb', __FILE__)

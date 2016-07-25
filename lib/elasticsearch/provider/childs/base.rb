@@ -7,6 +7,7 @@ module Elasticsearch
 
         def assignment(args)
           self.object_value = args
+          self
         end
       end
 
