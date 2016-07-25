@@ -55,6 +55,11 @@ module Elasticsearch
           end
         end
 
+        def delete
+          self.id = parent_id
+          super({parent: parent_id})
+        end
+
         def select(name)
           self.id = parent_id
 

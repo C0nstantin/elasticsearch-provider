@@ -69,4 +69,15 @@ describe Elasticsearch::Provider::Childs, :elasticsearch_child do
       expect(childs.ranked).to eq([{"content"=>"word", "rank"=>25}])
     end
   end
+
+  it 'delete child' do
+    childs.present = true
+    childs.save
+
+    expect(childs.present).to eq(true)
+
+    childs.delete
+
+    expect(childs.present).to eq(nil)
+  end
 end
