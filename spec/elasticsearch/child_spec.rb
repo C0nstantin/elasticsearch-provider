@@ -70,8 +70,10 @@ describe Elasticsearch::Provider::Childs, :elasticsearch_child do
     end
   end
 
-  it 'delete catch exeption' do
-    expect(childs.delete).to eq(nil)
+  it 'delete return error' do
+    expect {
+      childs.delete
+    }.to raise_error(Elasticsearch::Transport::Transport::Errors::NotFound)
   end
 
   it 'delete child' do

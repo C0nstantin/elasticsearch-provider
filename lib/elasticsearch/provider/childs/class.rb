@@ -56,7 +56,6 @@ module Elasticsearch
 
         def delete
           super({parent: parent_id})
-        rescue Elasticsearch::Transport::Transport::Errors::NotFound
         end
 
         def select(name)
