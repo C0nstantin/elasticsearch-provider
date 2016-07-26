@@ -22,7 +22,7 @@ module Elasticsearch
         def elasticsearch(*args, &block)
           instance_var = [
             '@query', '@hash', '@block', '@value', '@highlight', '@args',
-            '@id', '@mapping'
+            '@id', '@mapping', '@childs'
           ]
           instance_var.each { |name|
             if instance_variable_defined?(:"#{name}")
@@ -38,19 +38,19 @@ module Elasticsearch
         def childs(*args, &block)
           raise TypeError, "parent id must be present" if id.nil?
 
-          properties = Elasticsearch::Provider::Childs::Child.new
+          @childs ||= Elasticsearch::Provider::Childs::Child.new
 
-          child_mapping = client.indices.get_mapping(
+          @child_mapping = client.indices.get_mapping(
             index: index_name, type: child_type
-          ) unless child_mapping
+          ) unless @child_mapping
 
-          properties.document_mapping = child_mapping
-          properties.document_type = child_type
-          properties.index_name = index_name
-          properties.parent_id = id
-          properties.id = id
+          @childs.document_mapping = @child_mapping
+          @childs.document_type = child_type
+          @childs.index_name = index_name
+          @childs.parent_id = id
+          @childs.id = id
 
-          properties
+          @childs
         end
 
         private

@@ -27,7 +27,7 @@ module Elasticsearch
           []
         end
 
-        def reload
+        def release
           object = Elasticsearch::Provider::Childs::Child.new
 
           object.document_mapping = document_mapping

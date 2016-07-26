@@ -84,4 +84,21 @@ describe Elasticsearch::Provider::Childs, :elasticsearch_child do
 
     expect(childs.present).to eq(nil)
   end
+
+  it 'reuse child' do
+    dummy = DummyClass.new.id('first')
+    dummy.childs.present = true
+    dummy.childs.save
+
+    expect(dummy.childs.present).to eq(true)
+  end
+
+  it 'release object' do
+    current = childs
+    release = childs.release
+
+    expect(release).to be_an(Elasticsearch::Provider::Childs::Child)
+
+    expect(current).not_to eq(release)
+  end
 end
