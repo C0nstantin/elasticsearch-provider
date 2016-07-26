@@ -36,7 +36,7 @@ module Elasticsearch
             @id
           else
             @id = id
-            self
+            @implict || self
           end
         end
 

@@ -15,6 +15,10 @@ describe Elasticsearch::Provider::Parser do
     request = DummyClass.new
   end
 
+  it 'class set id response' do
+    expect(request.id('test')).to be_an(DummyClass)
+  end
+
   it 'class propperties for class method' do
     expect(
       request.id('test').implict
