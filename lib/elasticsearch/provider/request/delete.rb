@@ -37,7 +37,7 @@ module Elasticsearch
               end
             end
 
-            Hashie::Mash.new(response)
+            response
           end
 
           def bulk_delete(_ids)

@@ -6,23 +6,17 @@ require 'elasticsearch/provider'
 
 RSpec.configure do |config|
   config.before :each, :elasticsearch do
-    unless Elasticsearch::Extensions::Test::Cluster.running?
-      Elasticsearch::Extensions::Test::Cluster.start \
-        port: 9250,
-        nodes: 1
+    unless Elasticsearch::Provider.client
       Elasticsearch::Provider.client = Elasticsearch::Client.new \
-        url: 'localhost:9250',
+        url: 'elasticsearch.dev.local:9250',
         log: 'true'
     end
   end
 
   config.before :each, :elasticsearch_child do
-    unless Elasticsearch::Extensions::Test::Cluster.running?
-      Elasticsearch::Extensions::Test::Cluster.start \
-        port: 9250,
-        nodes: 1
+    unless Elasticsearch::Provider.client
       Elasticsearch::Provider.client = Elasticsearch::Client.new \
-        url: 'localhost:9250',
+        url: 'elasticsearch.dev.local:9250',
         log: 'true'
     end
 
@@ -37,7 +31,7 @@ RSpec.configure do |config|
         },
         properties: {
           id: {
-            type: "string"
+            type: "keyword"
           },
           present: {
             type: "boolean"
@@ -46,7 +40,7 @@ RSpec.configure do |config|
             type: "nested",
             properties: {
               content: {
-                type: "string",
+                type: "keyword",
                 index: "not_analyzed"
               },
               rank: {
@@ -56,24 +50,16 @@ RSpec.configure do |config|
           }
         }
       }
-    },
-    ignore_conflicts: true
+    }
 
     client.indices.put_mapping index: 'test', type: 'doc', body: {
       doc: {
         properties: {
           id: {
-            type: "string"
+            type: "keyword"
           }
         }
       }
-    },
-    ignore_conflicts: true
-  end
-
-  config.after :suite do
-   if Elasticsearch::Extensions::Test::Cluster.running?
-     Elasticsearch::Extensions::Test::Cluster.stop(port: 9250)
-   end
+    }
   end
 end

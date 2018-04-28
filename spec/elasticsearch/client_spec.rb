@@ -17,12 +17,12 @@ describe Elasticsearch::Provider::Model, :elasticsearch do
   it 'create test index' do
     client.indices.delete index: 'test' if client.indices.exists index: 'test'
     request = client.indices.create index: 'test', type: 'doc'
-    expect(request).to eql({"acknowledged"=>true})
+    expect(request).to include("acknowledged")
   end
 
   it 'search request success' do
     client.indices.put_mapping index: 'test', type: 'doc', \
-      body: {doc: {properties: {title: {type: "string"}}}}
+      body: {doc: {properties: {title: {type: "keyword"}}}}
 
     elastic.document(title: 'test').save
     expect(
@@ -33,13 +33,13 @@ describe Elasticsearch::Provider::Model, :elasticsearch do
   it 'create document and insert data' do
     expect(
       elastic.document({title: 'eeeeee'}).save
-    ).to include({"created" => true})
+    ).to include({"result" => "created"})
   end
 
   it 'create document and insert data with id' do
     expect(
       elastic.document({title: 'eeeeee'}).id(1).save
-    ).to include({"created" => true}, {"_id" => "1"})
+    ).to include({"_id" => "1"})
   end
 
   it 'search by id success' do
