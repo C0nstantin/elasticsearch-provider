@@ -21,7 +21,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'elasticsearch'
   spec.add_dependency 'elasticsearch-dsl'
-  spec.add_dependency 'hashie'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake', '~> 10.0'

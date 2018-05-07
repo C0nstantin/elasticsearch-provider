@@ -7,7 +7,7 @@ module Elasticsearch
           include Enumerable
 
           def initialize(repository, response)
-            @response = Hashie::Mash.new(response)
+            @response = response
             @repository = repository
           end
 
@@ -34,7 +34,7 @@ module Elasticsearch
           def results
             if response['hits']
               @results ||= response['hits']['hits'].map do |document|
-                Hashie::Mash.new(document)
+                document
               end
             else
               response

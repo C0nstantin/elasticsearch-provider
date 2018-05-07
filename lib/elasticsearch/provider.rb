@@ -1,6 +1,5 @@
 require 'elasticsearch'
 require 'elasticsearch/dsl'
-require 'hashie'
 
 require 'elasticsearch/provider/version'
 require 'elasticsearch/provider/client'

@@ -22,7 +22,7 @@ module Elasticsearch
         end
 
         def all
-          search({parent: parent_id}).results._source
+          search({parent: parent_id}).results['_source']
         rescue Elasticsearch::Transport::Transport::Errors::NotFound
           []
         end
@@ -59,7 +59,7 @@ module Elasticsearch
         end
 
         def select(name)
-          search({parent: id}).results._source[name]
+          search({parent: id})['results']['_source'][name]
         rescue Elasticsearch::Transport::Transport::Errors::NotFound
         end
 
