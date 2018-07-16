@@ -22,7 +22,8 @@ module Elasticsearch
         def elasticsearch(*args, &block)
           instance_var = [
             '@query', '@hash', '@block', '@value', '@highlight', '@args',
-            '@id', '@mapping', '@childs'
+            '@id', '@mapping', '@childs', '@aggregations', '@size', '@sort',
+            '@from', '@suggest', '@filter', '@post_filter'
           ]
           instance_var.each { |name|
             if instance_variable_defined?(:"#{name}")
